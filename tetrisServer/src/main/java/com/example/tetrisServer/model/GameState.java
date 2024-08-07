@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class GameState implements Serializable {
     private String playerId; // 플레이어 ID
+    private String opponentId; //상대방 ID
     private int score; // 점수
     private boolean gameOver; // 게임 오버 여부
     private String imageUrl; // 이미지 파일 URL
@@ -26,6 +27,18 @@ public class GameState implements Serializable {
         this.playerId = playerId;
     }
 
+    //
+    public String getOpponentId()
+    {
+        return opponentId;
+    }
+
+    public void setOpponentId(String opponentId)
+    {
+        this.opponentId = opponentId;
+    }
+
+    //
     public int getScore()
     {
         return score;
@@ -64,6 +77,7 @@ public class GameState implements Serializable {
     {
         return "GameState{" +
                 "playerId='" + playerId + '\'' +
+                "opponentId='" + opponentId + '\'' +
                 ", score=" + score +
                 ", gameOver=" + gameOver +
                 ", imageUrl='" + imageUrl + '\'' +

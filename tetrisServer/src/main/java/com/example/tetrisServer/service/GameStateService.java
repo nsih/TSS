@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class GameStateService {
+public class GameStateService
+{
 
     private static final String KEY_PREFIX = "game:"; // Redis 키 프리픽스
 

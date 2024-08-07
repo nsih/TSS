@@ -1,7 +1,6 @@
 // RedisConfig.java
 package com.example.tetrisServer.config;
 
-import com.example.tetrisServer.model.GameState;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -13,15 +12,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     @Bean
-    public RedisTemplate<String, GameState> redisTemplate(RedisConnectionFactory connectionFactory)
-    {
-        RedisTemplate<String, GameState> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
 
-        // Key, Value 직렬화
+        // String Serializer for Keys
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
+        // JSON Serializer for Values
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return template;
     }
 }
