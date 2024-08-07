@@ -1,1 +1,2 @@
-PVP를 위한 API서버
+Spring boot
+Java
