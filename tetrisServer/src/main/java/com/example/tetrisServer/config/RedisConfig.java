@@ -18,7 +18,7 @@ public class RedisConfig {
         RedisTemplate<String, GameState> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
-        // Key와 Value의 시리얼라이저 설정
+        // Key, Value 직렬화
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
