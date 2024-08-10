@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.ConcurrentMap;
 
 @RestController
-@RequestMapping("/api/game")
+
 public class GameController {
 
     private final GameStateService gameStateService;
@@ -20,9 +20,26 @@ public class GameController {
         this.gameStateService = gameStateService;
     }
 
+
+    @GetMapping("")
+    public String doGetHelloWorld()
+    {
+        return "Hello World";
+    }
+
+    @GetMapping("/TSS")
+    public String doGetHelloWorldDemo()
+    {
+        return "Hello World (TSS)";
+    }
+
+
+
+
     // 게임 상태 저장 엔드포인트
     @PostMapping("/save")
-    public ResponseEntity<String> saveGameState(@RequestBody GameState gameState) {
+    public ResponseEntity<String> saveGameState(@RequestBody GameState gameState)
+    {
         try {
             gameStateService.saveGameState(gameState);
             return new ResponseEntity<>("게임 상태가 성공적으로 저장되었습니다.", HttpStatus.OK);
@@ -35,7 +52,8 @@ public class GameController {
 
     // 게임 상태 조회 엔드포인트
     @GetMapping("/state/{playerId}")
-    public ResponseEntity<GameState> getGameState(@PathVariable String playerId) {
+    public ResponseEntity<GameState> getGameState(@PathVariable String playerId)
+    {
         try {
             GameState gameState = gameStateService.getGameState(playerId);
             if (gameState != null) {
@@ -52,7 +70,8 @@ public class GameController {
 
     // 매칭 대기 엔드포인트
     @PostMapping("/matchmaking")
-    public ResponseEntity<String> joinMatchmaking(@RequestParam String playerId) {
+    public ResponseEntity<String> joinMatchmaking(@RequestParam String playerId)
+    {
         try {
             boolean success = gameStateService.joinMatchmaking(playerId);
             if (success) {
@@ -69,7 +88,8 @@ public class GameController {
 
     // 매칭 상태 조회 엔드포인트
     @GetMapping("/matchmaking")
-    public ResponseEntity<ConcurrentMap<String, String>> getMatchmakingStatus() {
+    public ResponseEntity<ConcurrentMap<String, String>> getMatchmakingStatus()
+    {
         try {
             ConcurrentMap<String, String> status = gameStateService.getMatchmakingStatus();
             return new ResponseEntity<>(status, HttpStatus.OK);

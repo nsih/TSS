@@ -20,14 +20,16 @@ public class GameStateService {
     private final RedisTemplate<String, GameState> redisTemplate;
 
     @Autowired
-    public GameStateService(RedisTemplate<String, GameState> redisTemplate) {
+    public GameStateService(RedisTemplate<String, GameState> redisTemplate)
+    {
         this.gameStateMap = new ConcurrentHashMap<>();
         this.matchmakingQueue = new ConcurrentHashMap<>();
         this.redisTemplate = redisTemplate;
     }
 
     public void saveGameState(GameState gameState) {
-        if (gameState == null || gameState.getPlayerId() == null) {
+        if (gameState == null || gameState.getPlayerId() == null)
+        {
             logger.error("잘못된 게임 상태 또는 플레이어 ID가 null입니다.");
             throw new IllegalArgumentException("잘못된 게임 상태 또는 플레이어 ID");
         }
@@ -36,8 +38,10 @@ public class GameStateService {
         logger.info("플레이어 ID: {}에 대한 게임 상태 저장됨.", gameState.getPlayerId());
     }
 
-    public GameState getGameState(String playerId) {
-        if (playerId == null || playerId.isEmpty()) {
+    public GameState getGameState(String playerId)
+    {
+        if (playerId == null || playerId.isEmpty())
+        {
             logger.error("플레이어 ID가 null이거나 비어 있습니다.");
             throw new IllegalArgumentException("플레이어 ID는 null이거나 비어 있을 수 없습니다.");
         }
