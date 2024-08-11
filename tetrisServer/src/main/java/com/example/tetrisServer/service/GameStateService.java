@@ -58,8 +58,10 @@ public class GameStateService {
         return gameState;
     }
 
-    public boolean joinMatchmaking(String playerId) {
-        if (playerId == null || playerId.isEmpty()) {
+    public boolean joinMatchmaking(String playerId)
+    {
+        if (playerId == null || playerId.isEmpty())
+        {
             logger.error("플레이어 ID가 null이거나 비어 있습니다.");
             throw new IllegalArgumentException("플레이어 ID는 null이거나 비어 있을 수 없습니다.");
         }
@@ -78,6 +80,15 @@ public class GameStateService {
 
     public ConcurrentMap<String, String> getMatchmakingStatus() {
         return matchmakingQueue;
+    }
+
+    public GameState getMatchmakingStatus(String playerId) {
+        String opponentId = matchmakingQueue.get(playerId);
+        if (opponentId != null) {
+            return new GameState(playerId, opponentId, 0, 0, false, null);
+        }
+
+        return null;
     }
 
     public boolean startMatch() {

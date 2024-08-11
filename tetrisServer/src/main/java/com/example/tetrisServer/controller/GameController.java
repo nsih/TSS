@@ -83,16 +83,18 @@ public class GameController {
             return new ResponseEntity<>("잘못된 플레이어 ID입니다.", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-    }
 
-    // 매칭 상태 조회 엔드포인트
-    @GetMapping("/matchmaking")
-    public ResponseEntity<ConcurrentMap<String, String>> getMatchmakingStatus()
-    {
+    @GetMapping("/matchmaking-status")
+    public ResponseEntity<GameState> getMatchmakingStatus(@RequestParam String playerId) {
         try {
-            ConcurrentMap<String, String> status = gameStateService.getMatchmakingStatus();
-            return new ResponseEntity<>(status, HttpStatus.OK);
+            GameState gameState = gameStateService.getMatchmakingStatus(playerId);
+            if (gameState != null && gameState.getOpponentId() != null) {
+                return new ResponseEntity<>(gameState, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
