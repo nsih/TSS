@@ -82,28 +82,28 @@ public class GameStateService {
         return matchmakingQueue;
     }
 
-    public GameState getMatchmakingStatus(String playerId) {
-        String opponentId = matchmakingQueue.get(playerId);
-        if (opponentId != null) {
-            return new GameState(playerId, opponentId, 0, 0, false, null);
+    public String getMatchmakingStatus(String playerId)
+    {
+        // 플레이어 ID가 null이거나 대기열에 없는 경우 처리
+        if (playerId == null || !matchmakingQueue.containsKey(playerId)) {
+            logger.warn("플레이어 ID: {}가 매칭 대기열에 없거나 null입니다.", playerId);
+            return null;
         }
 
+        // 매칭 대기열에서 자신이 아닌 상대방 찾기
+        for (String opponentId : matchmakingQueue.keySet()) {
+            if (!opponentId.equals(playerId)) {
+                // 상대방을 찾으면 대기열에서 두 플레이어 제거
+                logger.info("플레이어 ID: {}가 상대방 {}와 매칭되었습니다.", playerId, opponentId);
+                // 상대방의 ID 반환
+                return opponentId;
+            }
+        }
+
+        // 상대방이 없을 경우
+        logger.info("플레이어 ID: {}에게 적합한 상대방을 찾을 수 없습니다.", playerId);
         return null;
     }
 
-    public boolean startMatch() {
-        if (matchmakingQueue.size() >= 2) {
-            String[] players = matchmakingQueue.keySet().toArray(new String[0]);
-            String player1 = players[0];
-            String player2 = players[1];
 
-            matchmakingQueue.remove(player1);
-            matchmakingQueue.remove(player2);
-
-            logger.info("매치가 시작되었습니다. 플레이어 1: {}, 플레이어 2: {}", player1, player2);
-            return true;
-        }
-        logger.info("매칭할 적합한 상대방을 찾을 수 없습니다.");
-        return false;
-    }
 }

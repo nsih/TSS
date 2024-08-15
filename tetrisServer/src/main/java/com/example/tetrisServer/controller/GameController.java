@@ -27,15 +27,6 @@ public class GameController {
         return "Hello World";
     }
 
-    @GetMapping("/TSS")
-    public String doGetHelloWorldDemo()
-    {
-        return "Hello World (TSS)";
-    }
-
-
-
-
     // 게임 상태 저장 엔드포인트
     @PostMapping("/save")
     public ResponseEntity<String> saveGameState(@RequestBody GameState gameState)
@@ -87,33 +78,23 @@ public class GameController {
         }
 
     @GetMapping("/matchmaking-status")
-    public ResponseEntity<GameState> getMatchmakingStatus(@RequestParam String playerId) {
-        try {
-            GameState gameState = gameStateService.getMatchmakingStatus(playerId);
-            if (gameState != null && gameState.getOpponentId() != null) {
-                return new ResponseEntity<>(gameState, HttpStatus.OK);
-            } else {
+    public ResponseEntity<String> getMatchmakingStatus(@RequestParam String playerId)
+    {
+        try
+        {
+            String opponentId = gameStateService.getMatchmakingStatus(playerId);
+            if (opponentId != null)
+            {
+                return new ResponseEntity<>(opponentId, HttpStatus.OK);
+            }
+            else
+            {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
-
-    // 매칭 시작 엔드포인트
-    // 큐 두개중에 내꺼 아닌걸 찾아서 상대방 id로 뱉기
-    @PostMapping("/start-match")
-    public ResponseEntity<String> startMatch()
-    {
-        try {
-            boolean success = gameStateService.startMatch();
-            if (success) {
-                return new ResponseEntity<>("매치가 성공적으로 시작되었습니다.", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("적절한 상대방을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>("서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
