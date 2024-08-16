@@ -65,9 +65,12 @@ public class GameController {
     {
         try {
             boolean success = gameStateService.joinMatchmaking(playerId);
-            if (success) {
+            if (success)
+            {
                 return new ResponseEntity<>("플레이어가 매칭 대기열에 추가되었습니다.", HttpStatus.OK);
-            } else {
+            }
+            else
+            {
                 return new ResponseEntity<>("플레이어가 이미 매칭 대기열에 있습니다.", HttpStatus.CONFLICT);
             }
         } catch (IllegalArgumentException e) {
@@ -75,7 +78,7 @@ public class GameController {
         } catch (Exception e) {
             return new ResponseEntity<>("서버 내부 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        }
+    }
 
     @GetMapping("/matchmaking-status")
     public ResponseEntity<String> getMatchmakingStatus(@RequestParam String playerId)
@@ -83,13 +86,13 @@ public class GameController {
         try
         {
             String opponentId = gameStateService.getMatchmakingStatus(playerId);
-            if (opponentId != null)
+            if(opponentId != null)
             {
                 return new ResponseEntity<>(opponentId, HttpStatus.OK);
             }
             else
             {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("",HttpStatus.OK);
             }
         }
         catch (Exception e)
