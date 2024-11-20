@@ -15,7 +15,7 @@ public class GameState implements Serializable
     private int time;           // 시간
     private int score;          // 점수
     private boolean isEnd;      // 게임 오버 여부
-    private String imageUrl;    // 이미지 파일 URL
+    private String gameSceneImg;    // 이미지 파일 URL
 
     @Override
     public String toString()
@@ -26,7 +26,7 @@ public class GameState implements Serializable
                 ", time=" + time +
                 ", score=" + score +
                 ", isEnd=" + isEnd +
-                ", imageUrl='" + imageUrl + '\'' +
+                ", gameSceneImg='" + gameSceneImg + '\'' +
                 '}';
     }
 }
